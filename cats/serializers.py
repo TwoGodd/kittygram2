@@ -33,6 +33,12 @@ class CatSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'color', 'birth_year', 'achievements', 'owner',
                   'age')
         read_only_fields = ('owner',)
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Cat.objects.all(),
+                fields=('name', 'owner')
+            )
+        ]
 
     def validate_birth_year(self, value):
         year = dt.date.today().year
